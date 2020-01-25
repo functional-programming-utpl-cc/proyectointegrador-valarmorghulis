@@ -1,0 +1,301 @@
+/* Aqui empieza la configuracion del menu desplegable*/
+* {
+	padding:0;
+	margin:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {background:#F2F2F2;}
+
+.menu_bar {
+	display:none;
+}
+
+header {
+	width: 100%;
+	
+}
+
+header nav {
+	background:#F2F2F2;
+	z-index:1000;
+	max-height: 2500px;
+	height: 25px;
+	max-width: 10000px;
+	width:100%;/* aqui es el ancho del menu desplegable en este caso sera un 100%*/
+	margin:0px auto;/* aqui es a que nivel de la parte de arriba va a estar el menu*/
+	padding: 0px;
+	border: 0;
+}
+
+header nav ul {
+	
+	list-style:none;
+}
+
+header nav ul li {
+	display:inline-block;
+	position: relative;
+}
+
+header nav ul li:hover {
+	background:#E6344A;
+}
+
+header nav ul li a {
+	color:rgb(10, 10, 10);
+	display:block;
+	text-decoration:none;
+	padding: 20px; /*margen entre submenus */
+}
+
+header nav ul li a span {
+	margin-right:10px;
+}
+
+header nav ul li:hover .children {
+	display:block;
+}
+
+header nav ul li .children {
+	display: none;
+	background:#F2F2F2;
+	position: absolute;
+	width: 150%;
+	z-index:1000;
+}
+
+header nav ul li .children li {
+	display:block;
+	overflow: hidden;
+	border-bottom: 1px solid rgba(255,255,255,.5);
+}
+
+header nav ul li .children li a {
+	display: block;
+}
+
+header nav ul li .children li a span {
+	float: right;
+	position: relative;
+	top:3px;
+	margin-right:0;
+	margin-left:10px;
+}
+
+header nav ul li .caret {
+	position: relative;
+	top:3px;
+	margin-left:10px;
+	margin-right:0px;
+}
+/*menu si es que es en celular*/
+@media screen and (max-width: 1135px) {
+	body {
+		padding-top:80px;
+	}
+
+	.menu_bar {
+		display:block;
+		width:100%;
+		position: fixed;
+		top:0;
+		background:#F2F2F2;
+	}
+
+	.menu_bar .bt-menu {
+		display: block;
+		padding: 20px;
+		color: rgb(0, 0, 0); /*color del signo de menu*/
+		overflow: hidden;
+		font-size: 25px;
+		font-weight: bold;
+		text-decoration: none;
+	}
+
+	.menu_bar span {
+		float: right;
+		font-size: 40px;
+	}
+
+	header nav {
+		width: 80%;
+		height: calc(100% - 80px);
+		position: fixed;
+		right:100%;
+		margin: 0;
+		overflow: scroll;
+	}
+
+	header nav ul li {
+		display: block;
+		border-bottom:1px solid rgba(255,255,255,.5);
+	}
+
+	header nav ul li a {
+		display: block;
+	}
+
+	header nav ul li:hover .children {
+		display: none;
+	}
+
+	header nav ul li .children {
+		width: 100%;
+		position: relative;
+	}
+
+	header nav ul li .children li a {
+		margin-left:20px;
+	}
+
+	header nav ul li .caret {
+		float: right;
+	}
+}
+h5 {
+	color:#F2F2F2;
+	font-family:Times New Roman;
+	font-size:50px;
+	text-align:left;
+	text-decoration:none;
+	font-weight: lighter;
+	margin-left:10%;
+	margin-top: 5px;
+  }
+h1 {
+	color:#8d1212;
+	font-family:sans-serif;
+	font-size:100%;
+	text-align:center;
+	font-weight: lighter;
+	text-decoration:none;
+	}
+  
+  h2 {
+	color:#000000;
+	font-family:Verdana;
+	font-size:50px;
+	text-align:center;
+	text-decoration:none;
+  }
+  h3 {
+	color:#000000;
+	font-family:Times New Roman;
+	font-size:100%;
+	text-align:right;
+	text-decoration:none;
+	margin-right:10px;
+  }
+h6 {
+	color:#000000;
+	font-family:Times New Roman;
+	font-size:50px;
+	text-align:center;
+	text-decoration:none;
+	font-weight: lighter;
+	margin-left:10%;
+	margin-top: 5px;
+  }
+h7 {
+	color:#000000;
+	font-family:Times New Roman;
+	font-size:30px;
+	text-align:center;
+	text-decoration:none;
+	font-weight: lighter;
+	
+  }
+
+/* header2 para integrar las imagenes de las peliculas*/
+@media (max-width:1135px) {
+	img#logo {
+	  display: none;
+	}
+  }
+#header2 {
+  padding: 0%;
+  margin: 0px;
+  width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+  max-width: 1000000px;
+  
+  height: 100%;
+  max-height: 1000000px;
+  background-color: #F2F2F2;
+}
+#header3 {
+	border: 0;
+	padding: 0px;
+	margin: 0px;
+	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+	max-width: 1000000px;
+	
+	height: 100%;
+	max-height: 1000000px;
+	background-color: #3D4957;
+	/*background-image: url("imagenes/portada4.jpg") ;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;*/
+  }
+#header4 {
+	padding: 0%;
+	margin: 0px;
+	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+	max-width: 1000000px;
+	
+	height: 100%;
+	max-height: 58px;
+	background-color: #F2F2F2;
+  }
+.thumb {
+	max-width:150px;
+	max-height:150px;
+}
+  
+.foto {
+	width:200px;
+	height:200px;
+	border:1px dotted lightgrey;
+	padding:10px;
+	margin:10px;
+	float:left;
+}
+/*pagina de contacto*/ 
+#header5 {
+	padding: 0%;
+	margin: 0px;
+	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+	max-width: 1000000px;
+	
+	height: 100%;
+	max-height: 58px;
+	background-color: #2D2D2D;
+  }
+
+
+  
+  #vis {
+	border: 0;
+	padding: 0px;
+	margin-top: 3%;
+
+	
+	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+	max-width: 1000px;
+	height: 100%;
+	max-height: 1000px;
+	background-color: #FFFFFF;
+  }
+  /*por entender */
+  .box{
+	color: #fff;
+	padding: 20px;
+	display: none;
+	margin-top: 20px;
+}
+.red{ background: #ff0000; }
+.green{ background: #228B22; }
+.blue{ background: #0000ff; }
+label{ margin-right: 15px; }
