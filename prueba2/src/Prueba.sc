@@ -40,13 +40,6 @@ implicit val decoder : CellDecoder[LocalDateTime] = localDateTimeDecoder(formatD
 val dataSource = new File(path2DataFile).readCsv[List, Tweet](rfc.withHeader)
 val values = dataSource.collect({ case Right(tweet) => tweet })
 /*
-val fromUsersList = values.map(tweet => tweet.fromUser)
-val fromUserList = values.map(tweet=>tweet.fromUser)
-println(fromUserList.toSeq.size)
-val countFromUsers = fromUserList.groupBy(identity).map({case(k,v)=>(k,v.length)})
-val activeUserList= ListMap(countFromUsers.toSeq.sortWith(_._2 > _._2):_*)
-activeUserList.foreach(println)
-
 val activeDays = ListMap(values.map(tweet => tweet.time.getDayOfMonth).groupBy(identity).map(
   {case(k,v) => (k, v.length)}).toSeq.sortWith(
   _._2 > _._2):_*)
@@ -54,28 +47,44 @@ val activeDays = ListMap(values.map(tweet => tweet.time.getDayOfMonth).groupBy(i
 val activeHours = ListMap(values.map(tweet => tweet.time.getHour).groupBy(identity).map(
   {case(k,v) => (k, v.length)}).toSeq.sortWith(
   _._2 > _._2):_*)
-
+*/
 
       //primera consulta = dias activos de tweets y retweets
 val filterTable = values.filter(x=> x.text.startsWith("RT"))
 val filterTable2 = values.filterNot(x=> x.text.startsWith("RT"))
+def tweet_rtweet_dia(ffData: List[Tuple3[Int,String,String]],isRTweet:Boolean):Int ={
 
-val activeDays = ListMap(filterTable2.map(tweet => tweet.time.getDayOfMonth).groupBy(identity).map(
-  {case(k,v) => (k, v.length)}).toSeq.sortWith(
-  _._2 > _._2):_*)
+  val countersList = ffData.map(t3 => (t3._2,t3._3))
+  if(isRTweet)
+    (countersList.flatMap(t2 => List(t2._1)).filter(x=>x.startsWith("RT"))).length
+  else
+    (countersList.flatMap(t2 => List(t2._2)).filterNot(x=>x.startsWith("RT"))).length
+}
+val tweets_dia = values.map(tweet => (tweet.time.getDayOfMonth,tweet.text,tweet.text)).
+  groupBy(_._1).map(kv=>(kv._1, tweet_rtweet_dia(kv._2,true),tweet_rtweet_dia(kv._2, false)))
 
-val activeDays_rt = ListMap(filterTable.map(tweet => tweet.time.getDayOfMonth).groupBy(identity).map(
-  {case(k,v) => (k, v.length)}).toSeq.sortWith(
-  _._2 > _._2):_*)
+
+
+
+
+
       //segunda consulta = horas activas de tweets y retweets
 
-val activeHours_rt = ListMap(filterTable.map(tweet => tweet.time.getHour).groupBy(identity).map(
-  {case(k,v) => (k, v.length)}).toSeq.sortWith(
-  _._2 > _._2):_*)
+def tweet_rtweet_hora(ffData: List[Tuple3[Int,String,String]],isRTweet:Boolean):Int ={
 
-val activeHours = ListMap(filterTable2.map(tweet => tweet.time.getHour).groupBy(identity).map(
-  {case(k,v) => (k, v.length)}).toSeq.sortWith(
-  _._2 > _._2):_*)
+  val countersList = ffData.map(t3 => (t3._2,t3._3))
+  if(isRTweet)
+    (countersList.flatMap(t2 => List(t2._1)).filter(x=>x.startsWith("RT"))).length
+  else
+    (countersList.flatMap(t2 => List(t2._2)).filterNot(x=>x.startsWith("RT"))).length
+}
+val tweets_hora = values.map(tweet => (tweet.time.getHour,tweet.text,tweet.text)).
+  groupBy(_._1).map(kv=>(kv._1, tweet_rtweet_dia(kv._2,true),tweet_rtweet_dia(kv._2, false)))
+
+
+
+
+
       //tercera consulta dispositivos usados
 //escribir los dispositivos mas ultilizados
 val devicesn = values.map(x=> x.source.split("<")).flatten
@@ -108,11 +117,18 @@ val distribucion_urls = values.map(tweet => ujson.read(tweet.entitiesStr).obj("u
   groupBy(identity).map({case(k,v)=> (k,v.length)})
 
 
-    //septima consulta coeficiente de pearson
+
+
+    //septima consulta media
+val media = values.map(tweet => Try(ujson.read(tweet.entitiesStr).obj("media")) match {case Success(s)=>"success"
+case Failure(f)=>"failure"}).groupBy(identity).map({case(k,v) => (k , v.length)})
     
 //val count = List(values.map(tweet => tweet.userFriendsCount match{case Left(s) => s})).flatten
 //val count2 = List(values.map(tweet => tweet.userFollowersCount match{case Left(s) => s})).flatten
 //count2.map(x=> x.toIntOption)
+
+
+      //octava consulta coeficiente de pearson
 val distribucion = values.map(tweet => tweet.userFriendsCount.toInt) zip values.map(
   tweet => tweet.userFollowersCount.toInt)
 val x2 = (a:List[(Int,Int)]) => a.map(x=>x._1*1.0)
@@ -128,68 +144,64 @@ val coef2 = coef(distribucion)
 
 
 
-    //octava consulta
-
-
-val metodo = values.map(tweet => Try(ujson.read(tweet.entitiesStr).obj("media")) match {case Success(s)=>"success"
-case Failure(f)=>"failure"}).groupBy(identity).map({case(k,v) => (k , v.length)})
-
-//val count2 = List(values.map(tweet => tweet.userFollowersCount match{case Left(s) => s})).flatten
-//count2.map(x=> x.toIntOption)
-
-
     //novena cosulta
-val distribucion = values.map(tweet => tweet.userFriendsCount.toInt) zip values.map(
-      tweet => tweet.userFollowersCount.toInt)
 
-val fromUsersList = filterTable.map(tweet => tweet.fromUser).groupBy(identity).map({case(k,v) => (k , v.length)})
-val fromUsersListPrueba = filterTable.map(tweet => tweet.fromUser).distinct.length
-val fromUsersListRT = filterTable2.map(tweet => tweet.fromUser).groupBy(identity).map({case(k,v) => (k , v.length)})
-val fromUsersListRTPrueba = filterTable2.map(tweet => tweet.fromUser).distinct.length
-val todosLosUsuarios = values.map(x => x.fromUser).distinct.length
-val prueba= values.map(tweet => tweet.fromUser).groupBy(identity).map({case(k,v) => (k , v.length)})
 
-val amigos = values.map(tweet => tweet.fromUser) zip values.map(tweet => tweet.userFollowersCount)
-val todosLosAmigos = values.map(x => x.userFriendsCount).length
-val funcion2 = (a:List[(String,Int)],b:List[String])=>
+def processFFCounters2(ffData: List[Tuple3[String,String,String]],isRTweet:Boolean):Int ={
+  val countersList = ffData.map(t3 => (t3._2,t3._3))
+  if(isRTweet)
+    (countersList.flatMap(t2 => List(t2._1)).filter(x=>x.startsWith("RT"))).length
+  else
+    (countersList.flatMap(t2 => List(t2._2)).filterNot(x=>x.startsWith("RT"))).length
+}
 
-val seguidores = values.map(tweet => tweet.fromUser) zip values.map(tweet => tweet.userFriendsCount)
+def processFFCounters(ffData: List[Tuple3[String,Double,Double]],isFollowers:Boolean):Int ={
+  val avg = (nums:List[Double])=> nums.sum / nums.length
+  val countersList = ffData.map(t3 => (t3._2,t3._3))
+  if(isFollowers)
+    avg(countersList.flatMap(t2 => List(t2._1))).toInt
+  else
+    avg(countersList.flatMap(t2 => List(t2._2))).toInt
+}
+def completo(ffData: List[Tuple5[String, Double, Double, String, String]],isTrue:Boolean,tweetOrFriends:Boolean):Int ={
+  val datos1 = ffData.map(x=>(x._1,x._2,x._3))
+  val datos2 = ffData.map(x=>(x._1,x._4,x._5))
+  if(tweetOrFriends:Boolean)
+    processFFCounters(datos1,isTrue)
+  else
+    processFFCounters2(datos2,isTrue)
+}
+val consulta =  values.map(tweet => (tweet.fromUser,tweet.userFollowersCount, tweet.userFriendsCount,tweet.text,tweet.text)).
+  groupBy(_._1).map(kv=>(kv._1, completo(kv._2,true,true),completo(kv._2, false,true)
+  ,completo(kv._2,true,false),completo(kv._2, false,false)))
 
-val seguidores2 = seguidores.length
-print(seguidores2)
-val todosLosAmigos = values.map(x => x.userFollowersCount).length
+
 
     //decima consulta cuantas veces se ah mencionado un usuario
 
 val distribucion_mentions = values.flatMap(tweet => ujson.read(tweet.entitiesStr).obj("user_mentions").arr).map(
   ht=> ht.obj("screen_name").str).groupBy(identity).map({case(k,v) => (k,v.length)})
 
+
+
 //escribir primera conslta
 val out = java.io.File.createTempFile("activeDays.csv","csv")
-val writer = out.asCsvWriter[(Int,Int)](rfc.withHeader("day","count"))
-activeDays.foreach(writer.write(_))
+val writer = out.asCsvWriter[(Int,Int,Int)](rfc.withHeader("day","tweets","retweets"))
+tweets_dia.foreach(writer.write(_))
 writer.close()
 
-val out = java.io.File.createTempFile("activeDaysRT.csv","csv")
-val writer = out.asCsvWriter[(Int,Int)](rfc.withHeader("day","count"))
-activeDays_rt.foreach(writer.write(_))
-writer.close()
 
 //segunda consulta
 val out = java.io.File.createTempFile("activeHours.csv","csv")
-val writer = out.asCsvWriter[(Int,Int)](rfc.withHeader("day","count"))
-activeHours.foreach(writer.write(_))
+val writer = out.asCsvWriter[(Int,Int,Int)](rfc.withHeader("hour","tweets","retweets"))
+tweets_hora.foreach(writer.write(_))
 writer.close()
 
-val out = java.io.File.createTempFile("activeHoursRt.csv","csv")
-val writer = out.asCsvWriter[(Int,Int)](rfc.withHeader("day","count"))
-activeHours_rt.foreach(writer.write(_))
-writer.close()
 
 //tercera consulta
 val out = java.io.File.createTempFile("devices.csv","csv")
 val writer = out.asCsvWriter[(String,Int)](rfc.withHeader("device","count"))
-devices.foreach(writer.write(_))
+devices2.foreach(writer.write(_))
 writer.close()
 
 
@@ -216,64 +228,28 @@ writer.close()
 
 
 //septima consulta
-//val out = java.io.File.createTempFile("coef2.csv","csv")
-//val writer = out.asCsvWriter[(Double)](rfc.withHeader("relacion_amigos_seguidores"))
-//coef2.writer.write(_)
-//writer.close()
+val out = java.io.File.createTempFile("septima.csv","csv")
+val writer = out.asCsvWriter[(String,Int)](rfc.withHeader("opcion","count"))
+media.foreach(writer.write(_))
+writer.close()
 
 
-
-
-
-
+//novena consulta
+val out = java.io.File.createTempFile("novena.csv","csv")
+val writer = out.asCsvWriter[(String,Int,Int,Int,Int)](rfc.withHeader("usuario","followers","friends","tweet","retweets"))
+consulta.foreach(writer.write(_))
+writer.close()
 
 //decima consulta
-val out = java.io.File.createTempFile("distribucion_mentions.csv","csv")
-val writer = out.asCsvWriter[(String,Int)](rfc.withHeader("usuario","count"))
+val out = java.io.File.createTempFile("decima.csv","csv")
+val writer = out.asCsvWriter[(String,Int)](rfc.withHeader("usuario","mentions"))
 distribucion_mentions.foreach(writer.write(_))
 writer.close()
 
 
 
 
-//escribir4
-/*ww
-val out4 = java.io.File.createTempFile("hashtags.csv","csv")
-val writer4 = out4.asCsvWriter[(Int,Int)](rfc.withHeader("hashtags","count"))
-numHashtag.foreach(writer4.write(_))
-writer4.close()*/
-values.flatMap(tweet => ujson.read(tweet.entitiesStr).obj("hashtags").arr).map(
-  ht=> ht.obj("text").str).groupBy(identity).map({case(k,v) => (k,v.length)}).foreach(println)
-
-//listOfList.flatMap(lista => lista)
-*/
-
-
-def processFFCounters2(ffData: List[Tuple3[String,String,String]],isFollowers:Boolean):Int ={
-
-  val countersList = ffData.map(t3 => (t3._2,t3._3))
-  if(isFollowers)
-    (countersList.flatMap(t2 => List(t2._1)).filter(x=>x.startsWith("RT"))).length
-  else
-    (countersList.flatMap(t2 => List(t2._2)).filterNot(x=>x.startsWith("RT"))).length
-}
-val uno = values.map(tweet => (tweet.fromUser,tweet.text,tweet.text)).
-  groupBy(_._1).map(kv=>(kv._1, processFFCounters2(kv._2,true),processFFCounters2(kv._2, false)))
 
 
 
-def processFFCounters(ffData: List[Tuple3[String,Double,Double]],isFollowers:Boolean):Double ={
-  val avg = (nums:List[Double])=> nums.sum / nums.length
-  val countersList = ffData.map(t3 => (t3._2,t3._3))
-  if(isFollowers)
-    avg(countersList.flatMap(t2 => List(t2._1)))
-  else
-    avg(countersList.flatMap(t2 => List(t2._2)))
-}
-val dos = values.map(tweet => (tweet.fromUser,tweet.userFollowersCount, tweet.userFriendsCount)).
-groupBy(_._1).map(kv=>(kv._1, processFFCounters(kv._2,true),processFFCounters(kv._2, false)))
 
-val completo =  values.map(tweet => (tweet.fromUser,tweet.userFollowersCount, tweet.userFriendsCount,tweet.text,tweet.text)).
-  groupBy(_._1).map(kv=>(kv._1, processFFCounters(kv._2,true),
-  processFFCounters(kv._2, false)))
-val bb = (a:List[(String,Int,Int)], b:[(String,Double,Double)]) => (a q)

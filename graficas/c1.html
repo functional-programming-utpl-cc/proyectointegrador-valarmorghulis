@@ -1,0 +1,143 @@
+<html>
+<!-- Esto es un comentario en html -->
+<head>
+    <title>Tw y Rt por dia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="beta2.css">
+    <link rel="stylesheet" href="style.css">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.9.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('input[type="radio"]').click(function(){
+                var inputValue = $(this).attr("value");
+                var targetBox = $("." + inputValue);
+                $(".box").not(targetBox).hide();
+                $(targetBox).show();
+            });
+        });
+        </script>
+</head>
+
+<body>
+    <header>
+		<div class="menu_bar">
+            <a href="#" class="bt-menu"><img src="imagenes/valar.png" alt="lol"   height="46.75px" 
+                width="217.75px" align="left" style = "margin: 20px 10px"><span class="icon-list2"></span></a> 
+		</div>
+        <h1>
+		<nav>
+			<ul>
+                <li><a href="beta.html"><span class="icon-home"></span>INICIO</a></li>
+				<li class="submenu">
+					<a href="#"><span class="icon-file-picture"></span>Graficos<span class="file-picture"></span></a>
+					<ul class="children">
+						<li><a href="c1.html">Numero de Tweets y ReTweets por día<span class="icon-dot"></span></a></li>
+						<li><a href="c2.html">Número de Tweets y ReTweets por hora <span class="icon-dot"></span></a></li>
+                        <li><a href="c3.html">Aplicaciones más utilizadas <span class="icon-dot"></span></a></li>
+                        <li><a href="c4.html">Distribución de Hashtags<span class="icon-dot"></span></a></li>
+                        <li><a href="c5.html">Distribución de menciones<span class="icon-dot"></span></a></li>
+                        <li><a href="c6.html">Distribución de URLs<span class="icon-dot"></span></a></li>
+                        <li><a href="c7.html">Distribución de media<span class="icon-dot"></span></a></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><span class="icon-list-numbered"></span>Tablas <span class="caret icon-arrow-down6"></span></a>
+					<ul class="children">
+						<li><a href="t1.html"> correlación  <span class="icon-dot"></span></a></li>
+						<li><a href="t2.html">comportamiento de los usuarios <span class="icon-dot"></span></a></li>
+                        <li><a href="t3.html">Cuántas veces se ha mencionado a un usuario <span class="icon-dot"></span></a></li>
+					</ul>
+				</li>
+                <li><a href="contacto.html"><span class="icon-file-text2"></span>Documentacion</a></li>
+                <li><a href="#">Otros</a></li>
+                <img id="logo" src="imagenes/valar.png" alt="lol" height="46.75px"width="217.75px" 
+                align="right" style = "margin: 5px 50px">
+			</ul>
+        </nav>
+        </h1>
+	</header>
+    <br>
+    <br>
+    <center><br>
+   
+        
+         <div id="botones">
+             <br>
+             <label></label>
+            <label><input type="radio" name="colorRadio" value="red"  > Grafico</label>
+            <label><input type="radio" name="colorRadio" value="green" > explicacion</label>
+            
+        </div>
+        
+        <div class="red box" id="vis" onclick="goFullscreen('vis')"> </div>
+        <div class="green box">You have selected <strong>green radio button</strong> so i am here</div>
+    </center>
+   
+    <br>
+    <div id="header4">
+        <center>
+            <h1> 
+                <br>
+                <br>
+                prueba :v 
+                <br>
+                <br>
+            </h1>
+        </center>
+    </div>    
+    <br></br>
+    <script type="text/javascript">
+        function goFullscreen(id) {
+          var element = document.getElementById(id);       
+          if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if (element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen();
+          }  
+        }
+        </script>
+
+    <script>
+        // Assign the specification to a local variable vlSpec.
+        var clientHeight = document.getElementById('vis').clientHeight;
+        var clientWidth = document.getElementById('vis').clientWidth;
+        const vlSpec1 = {
+            $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
+            data: {
+                "url": "data/activeDays.csv"
+            },
+            "width": clientWidth,
+            "height": clientHeight,
+            mark: 'bar',
+            encoding: {
+                x: {
+                    field: 'day',
+                    type: 'quantitative',
+                    title: 'Dia',
+                    "scale": {"domain": [1, 32]}
+                },
+                y: {
+                    field: 'count',
+                    type: 'quantitative',
+                    title: '# publicaciones'
+                }
+            }
+        };
+        // Embed the visualization in the container with id `vis`
+        vegaEmbed('#vis', vlSpec1);
+    
+      
+    </script>
+       
+       
+       
+</body>
+
+
+</html>

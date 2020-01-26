@@ -1,7 +1,7 @@
 <html>
 <!-- Esto es un comentario en html -->
 <head>
-    <title>Valar Morghulis</title>
+    <title>Distribución de menciones</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="beta2.css">
@@ -39,19 +39,21 @@
 				<li class="submenu">
 					<a href="#"><span class="icon-file-picture"></span>Graficos<span class="file-picture"></span></a>
 					<ul class="children">
-						<li><a href="">1 <span class="icon-dot"></span></a></li>
-						<li><a href="">2 <span class="icon-dot"></span></a></li>
-                        <li><a href="">3 <span class="icon-dot"></span></a></li>
-                        <li><a href="">4 <span class="icon-dot"></span></a></li>
+						<li><a href="c1.html">Numero de Tweets y ReTweets por día<span class="icon-dot"></span></a></li>
+						<li><a href="c2.html">Número de Tweets y ReTweets por hora <span class="icon-dot"></span></a></li>
+                        <li><a href="c3.html">Aplicaciones más utilizadas <span class="icon-dot"></span></a></li>
+                        <li><a href="c4.html">Distribución de Hashtags<span class="icon-dot"></span></a></li>
+                        <li><a href="c5.html">Distribución de menciones<span class="icon-dot"></span></a></li>
+                        <li><a href="c6.html">Distribución de URLs<span class="icon-dot"></span></a></li>
+                        <li><a href="c7.html">Distribución de media<span class="icon-dot"></span></a></li>
 					</ul>
 				</li>
 				<li class="submenu">
 					<a href="#"><span class="icon-list-numbered"></span>Tablas <span class="caret icon-arrow-down6"></span></a>
 					<ul class="children">
-						<li><a href="">1 <span class="icon-dot"></span></a></li>
-						<li><a href="">2 <span class="icon-dot"></span></a></li>
-                        <li><a href="">3 <span class="icon-dot"></span></a></li>
-                        <li><a href="">4 <span class="icon-dot"></span></a></li>
+						<li><a href="t1.html"> correlación  <span class="icon-dot"></span></a></li>
+						<li><a href="t2.html">comportamiento de los usuarios <span class="icon-dot"></span></a></li>
+                        <li><a href="t3.html">Cuántas veces se ha mencionado a un usuario <span class="icon-dot"></span></a></li>
 					</ul>
 				</li>
                 <li><a href="contacto.html"><span class="icon-file-text2"></span>Documentacion</a></li>
@@ -78,7 +80,7 @@
         <div class="red box" id="vis" onclick="goFullscreen('vis')"> </div>
         <div class="green box">You have selected <strong>green radio button</strong> so i am here</div>
     </center>
-    <br>
+   
     <br>
     <div id="header4">
         <center>
@@ -87,9 +89,11 @@
                 <br>
                 prueba :v 
                 <br>
+                <br>
             </h1>
         </center>
     </div>    
+    <br></br>
     <script type="text/javascript">
         function goFullscreen(id) {
           var element = document.getElementById(id);       
@@ -108,17 +112,17 @@
         const vlSpec1 = {
             $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
             data: {
-                "url": "data/activeDays.csv"
+                "url": "data/distribucion_user_mentions.csv"
             },
             "width": clientWidth,
             "height": clientHeight,
             mark: 'bar',
             encoding: {
                 x: {
-                    field: 'day',
+                    field: 'number_user_mentions',
                     type: 'quantitative',
-                    title: 'Dia',
-                    "scale": {"domain": [1, 32]}
+                    title: 'numero de urls',
+                    
                 },
                 y: {
                     field: 'count',
