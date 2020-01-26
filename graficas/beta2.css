@@ -240,7 +240,7 @@ h7 {
 	background-size: 100% 100%;*/
   }
 #header4 {
-	padding: 0%;
+	padding: 10px;
 	margin: 0px;
 	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
 	max-width: 1000000px;
@@ -276,26 +276,39 @@ h7 {
 
 
   
-  #vis {
+ 
+  /*por entender */
+  .box{
+	
 	border: 0;
 	padding: 0px;
 	margin-top: 3%;
-
-	
-	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+	width: 100%; 
 	max-width: 1000px;
 	height: 100%;
 	max-height: 1000px;
 	background-color: #FFFFFF;
   }
-  /*por entender */
-  .box{
-	color: #fff;
-	padding: 20px;
-	display: none;
-	margin-top: 20px;
+
+.red{ background: #ffffff; 
+	height: 100%;
+	width: 100%; }
+.green{ 
+	background: #FFFFFF;
+	display: none; 
 }
-.red{ background: #ff0000; }
-.green{ background: #228B22; }
-.blue{ background: #0000ff; }
-label{ margin-right: 15px; }
+
+label{ margin-right: 15px;
+text-align: center;
+color: #FFFFFF; }
+
+#botones{
+padding: 0%;
+	margin: 0px;
+	width: 100%; /* Aqui Seleccionamos el espacio que podra ocupar el menu desplegabe/le*/
+	max-width: 1000000px;
+	
+	height: 100%;
+	max-height: 58px;
+	background-color: #2D2D2D;
+  }

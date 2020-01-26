@@ -1,7 +1,7 @@
 <html>
 <!-- Esto es un comentario en html -->
 <head>
-    <title>Infocon</title>
+    <title>Valar Morghulis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="beta2.css">
@@ -12,12 +12,22 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('input[type="radio"]').click(function(){
+                var inputValue = $(this).attr("value");
+                var targetBox = $("." + inputValue);
+                $(".box").not(targetBox).hide();
+                $(targetBox).show();
+            });
+        });
+        </script>
 </head>
 
 <body>
     <header>
 		<div class="menu_bar">
-            <a href="#" class="bt-menu"><img src="imagenes/logo_final.png" alt="lol"   height="46.75px" 
+            <a href="#" class="bt-menu"><img src="imagenes/valar.png" alt="lol"   height="46.75px" 
                 width="217.75px" align="left" style = "margin: 20px 10px"><span class="icon-list2"></span></a>
             
             
@@ -27,7 +37,7 @@
 			<ul>
                 <li><a href="beta.html"><span class="icon-home"></span>INICIO</a></li>
 				<li class="submenu">
-					<a href="#"><span class="icon-laptop"></span>Graficos<span class="caret icon-arrow-down6"></span></a>
+					<a href="#"><span class="icon-file-picture"></span>Graficos<span class="file-picture"></span></a>
 					<ul class="children">
 						<li><a href="">1 <span class="icon-dot"></span></a></li>
 						<li><a href="">2 <span class="icon-dot"></span></a></li>
@@ -36,7 +46,7 @@
 					</ul>
 				</li>
 				<li class="submenu">
-					<a href="#"><span class="icon-user-tie"></span>Tablas <span class="caret icon-arrow-down6"></span></a>
+					<a href="#"><span class="icon-list-numbered"></span>Tablas <span class="caret icon-arrow-down6"></span></a>
 					<ul class="children">
 						<li><a href="">1 <span class="icon-dot"></span></a></li>
 						<li><a href="">2 <span class="icon-dot"></span></a></li>
@@ -44,9 +54,9 @@
                         <li><a href="">4 <span class="icon-dot"></span></a></li>
 					</ul>
 				</li>
-                <li><a href="contacto.html"><span class="icon-mail2"></span>Documentacion</a></li>
+                <li><a href="contacto.html"><span class="icon-file-text2"></span>Documentacion</a></li>
                 <li><a href="#">Otros</a></li>
-                <img id="logo" src="imagenes/logo_final.png" alt="lol" height="46.75px"width="217.75px" 
+                <img id="logo" src="imagenes/valar.png" alt="lol" height="46.75px"width="217.75px" 
                 align="right" style = "margin: 5px 50px">
 			</ul>
         </nav>
@@ -55,7 +65,31 @@
     <br>
     <br>
     <center><br>
-    <div id="vis" onclick="goFullscreen('vis')"> </div></center>
+   
+        
+         <div id="botones">
+             <br>
+             <label></label>
+            <label><input type="radio" name="colorRadio" value="red"  > Grafico</label>
+            <label><input type="radio" name="colorRadio" value="green" > explicacion</label>
+            
+        </div>
+        
+        <div class="red box" id="vis" onclick="goFullscreen('vis')"> </div>
+        <div class="green box">You have selected <strong>green radio button</strong> so i am here</div>
+    </center>
+    <br>
+    <br>
+    <div id="header4">
+        <center>
+            <h1> 
+                <br>
+                <br>
+                prueba :v 
+                <br>
+            </h1>
+        </center>
+    </div>    
     <script type="text/javascript">
         function goFullscreen(id) {
           var element = document.getElementById(id);       
@@ -99,42 +133,9 @@
       
     </script>
        
-
-
-
-
-<br>
-<br>
-        <div id="header4">
-            <center>
-                <h1> 
-                    <br>
-                    <br>
-                    prueba :v 
-                </h1>
-            </center>
-        </div>    
-        <br><br>
-        <script>
-            $(document).ready(function(){
-                $('input[type="radio"]').click(function(){
-                    var inputValue = $(this).attr("value");
-                    var targetBox = $("." + inputValue);
-                    $(".box").not(targetBox).hide();
-                    $(targetBox).show();
-                });
-            });
-            </script>
-         <div>
-            <label><input type="radio" name="colorRadio" value="red"> red</label>
-            <label><input type="radio" name="colorRadio" value="green"> green</label>
-            <label><input type="radio" name="colorRadio" value="blue"> blue</label>
-        </div>
-        <div class="red box">You have selected <strong>red radio button</strong> so i am here</div>
-        <div class="green box">You have selected <strong>green radio button</strong> so i am here</div>
-        <div class="blue box">You have selected <strong>blue radio button</strong> so i am here</div>
-    
+       
        
 </body>
+
 
 </html>
