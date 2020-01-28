@@ -1,7 +1,7 @@
 <html>
 <!-- Esto es un comentario en html -->
 <head>
-    <title>Tw y Rt por dia</title>
+    <title>Proyecto Integrador de saberes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="beta2.css">
@@ -12,16 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('input[type="radio"]').click(function(){
-                var inputValue = $(this).attr("value");
-                var targetBox = $("." + inputValue);
-                $(".box").not(targetBox).hide();
-                $(targetBox).show();
-            });
-        });
-        </script>
 </head>
 
 <body>
@@ -68,91 +58,43 @@
    
         
          <div id="botones">
-             <br>
-             <label></label>
-            <label><input type="radio" name="colorRadio" value="red"  > Grafico</label>
-            <label><input type="radio" name="colorRadio" value="green" > explicacion</label>
+            <h7>Proyecto Integrador de saberes</h7>
             
         </div>
         
-        <div class="red box" id="vis" onclick="goFullscreen('vis')"> </div>
-        <div class="green box">You have selected <strong>green radio button</strong> so i am here</div>
+        <div class="red box" id="vis" > 
+            <br><br>
+            <h8> Conceptos de programación funcional  aplicados para la realizacion de un análisis exploratorio de datos y 
+                presentacion de las visualizaciones que permiten ver el resultado de los análisis realizados
+                </h8>
+            <br><br>
+            <br><br>
+            <br><br>
+            <img src= "imagenes/utp.jpg" height="195px" width="483px">
+
+        </div>
+        
+        
     </center>
    
+
+
+
+
     <br>
     <div id="header4">
         <center>
             <h1> 
                 <br>
                 <br>
-                prueba :v 
+                Elaborado por: Diana Serrano e Israel Tapia 
                 <br>
                 <br>
             </h1>
         </center>
     </div>    
     <br></br>
-    <script type="text/javascript">
-        function goFullscreen(id) {
-          var element = document.getElementById(id);       
-          if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-          } else if (element.webkitRequestFullScreen) {
-            element.webkitRequestFullScreen();
-          }  
-        }
-        </script>
-
-    <script>
-        // Assign the specification to a local variable vlSpec.
-        
-        var clientHeight = document.getElementById('vis').clientHeight;
-        var clientWidth = document.getElementById('vis').clientWidth;
-        const vlSpec1 = {
-            $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-            data: {
-                "url": "data/activeDays.csv"
-            },
-            "width": clientWidth,
-            "height": clientHeight,
-            layer:[{
-            mark: 'bar',
-            encoding: {
-                x: {
-                    field:"day",
-                    type: 'quantitative',
-                    title: 'dia',
-                    
-                },
-               
-                y: {
-                    field: 'retweets',
-                    type: 'quantitative',
-                   title: "ReTweets"} 
-        }},{
-            mark: 'rule',
-            encoding: {
-                x: {
-                    field:"day",
-                    type: 'quantitative',
-                    title: 'dia',
-                    
-                },
-                y: {
-                    field: 'tweets',
-                    type: 'quantitative',
-                   title: "Tweets"} 
-
-        }
-    }]
-        }     
-        
-        // Embed the visualization in the container with id `vis`
-        vegaEmbed('#vis', vlSpec1);
     
-      
-    </script>
-       
        
        
 </body>

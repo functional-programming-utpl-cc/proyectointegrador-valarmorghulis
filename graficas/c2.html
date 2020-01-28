@@ -105,37 +105,57 @@
         }
         </script>
 
-    <script>
-        // Assign the specification to a local variable vlSpec.
-        var clientHeight = document.getElementById('vis').clientHeight;
-        var clientWidth = document.getElementById('vis').clientWidth;
-        const vlSpec1 = {
-            $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-            data: {
-                "url": "data/activeHours.csv"
-            },
-            "width": clientWidth,
-            "height": clientHeight,
-            mark: 'bar',
-            encoding: {
-                x: {
-                    field: 'day',
-                    type: 'quantitative',
-                    title: 'Dia',
-                    "scale": {"domain": [1, 32]}
-                },
-                y: {
-                    field: 'count',
-                    type: 'quantitative',
-                    title: '# publicaciones'
-                }
-            }
-        };
-        // Embed the visualization in the container with id `vis`
-        vegaEmbed('#vis', vlSpec1);
+<script>
+    // Assign the specification to a local variable vlSpec.
     
-      
-    </script>
+    var clientHeight = document.getElementById('vis').clientHeight;
+    var clientWidth = document.getElementById('vis').clientWidth;
+    const vlSpec1 = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
+        data: {
+            "url": "data/activeHours.csv"
+        },
+        "width": clientWidth,
+        "height": clientHeight,
+        layer:[{
+        mark: 'bar',
+        encoding: {
+            x: {
+                field:"hour",
+                type: 'quantitative',
+                title: 'dia',
+                
+            },
+           
+            y: {
+                field: 'retweets',
+                type: 'quantitative',
+               title: "ReTweets"} 
+               
+    }},{
+        mark: 'rule',
+        encoding: {
+            x: {
+                field:"hour",
+                type: 'quantitative',
+                title: 'dia',
+                
+            },
+            y: {
+                field: 'tweets',
+                type: 'quantitative',
+               title: "Tweets"} 
+               
+
+    }
+}]
+    }     
+    
+    // Embed the visualization in the container with id `vis`
+    vegaEmbed('#vis', vlSpec1);
+
+  
+</script>
        
        
        
