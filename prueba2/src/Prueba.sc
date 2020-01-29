@@ -39,15 +39,8 @@ case class Tweet(
 implicit val decoder : CellDecoder[LocalDateTime] = localDateTimeDecoder(formatDateTime)
 val dataSource = new File(path2DataFile).readCsv[List, Tweet](rfc.withHeader)
 val values = dataSource.collect({ case Right(tweet) => tweet })
-/*
-val activeDays = ListMap(values.map(tweet => tweet.time.getDayOfMonth).groupBy(identity).map(
-  {case(k,v) => (k, v.length)}).toSeq.sortWith(
-  _._2 > _._2):_*)
 
-val activeHours = ListMap(values.map(tweet => tweet.time.getHour).groupBy(identity).map(
-  {case(k,v) => (k, v.length)}).toSeq.sortWith(
-  _._2 > _._2):_*)
-*/
+
 
       //primera consulta = dias activos de tweets y retweets
 val filterTable = values.filter(x=> x.text.startsWith("RT"))
@@ -179,9 +172,19 @@ val consulta =  values.map(tweet => (tweet.fromUser,tweet.userFollowersCount, tw
 
     //decima consulta cuantas veces se ah mencionado un usuario
 
-val distribucion_mentions = values.flatMap(tweet => ujson.read(tweet.entitiesStr).obj("user_mentions").arr).map(
-  ht=> ht.obj("screen_name").str).groupBy(identity).map({case(k,v) => (k,v.length)})
+//val distribucion_mentions = values.flatMap(tweet => ujson.read(tweet.entitiesStr).obj("user_mentions").arr).map(
+//  ht=> ht.obj("screen_name").str).groupBy(identity).map({case(k,v) => (k,v.length)})
 
+def process(a:String, b:Int,lista:List[(String)]):Int ={
+  if (lista contains(a))
+    0  else
+    b}
+
+val aux = values.flatMap(tweet => ujson.read(tweet.entitiesStr).obj("user_mentions").arr).map(
+  ht=> ht.obj("screen_name").str)
+val aux2 = ((values.map(x => x.fromUser)).distinct) diff (aux.distinct)
+var aux3 = aux2.union(aux).groupBy(identity).map({case(k,v) => (k,v.length)})
+var distribucion_mentions = aux3.map(x=> (x._1,process(x._1,x._2,aux2)))
 
 
 //escribir primera conslta
@@ -245,7 +248,6 @@ val out = java.io.File.createTempFile("decima.csv","csv")
 val writer = out.asCsvWriter[(String,Int)](rfc.withHeader("usuario","mentions"))
 distribucion_mentions.foreach(writer.write(_))
 writer.close()
-
 
 
 
